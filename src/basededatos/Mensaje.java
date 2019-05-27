@@ -18,6 +18,10 @@ public class Mensaje extends javax.swing.JFrame {
         initComponents();
     }
 
+    /**
+     *
+     * @param msg
+     */
     public void cambiarText( String msg){
         etiquetaM.setText(msg);
     }

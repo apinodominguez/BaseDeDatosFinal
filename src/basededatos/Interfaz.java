@@ -32,7 +32,7 @@ public class Interfaz extends javax.swing.JFrame {
 
      private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:C:\\SQlite\\BasesDeDatos\\LibreriaFinal.db";
+        String url = "jdbc:sqlite:/home/local/DANIELCASTELAO/apinodominguez/Descargas/SQLiteStudio/BasesDeDatos/Libreria.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -42,8 +42,10 @@ public class Interfaz extends javax.swing.JFrame {
         return conn;
     }
     
-    
-     public void selectAll(){
+    /**
+     *
+     */
+    public void selectAll(){
         String sql = "SELECT isbn, titulo, nombre FROM libros INNER JOIN autor ON autor.id = libros.idautor";
         
         try (Connection conn = this.connect();
@@ -62,13 +64,20 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }
     
-      public void limpiarTabla(){
+    /**
+     *
+     */
+    public void limpiarTabla(){
         DefaultTableModel dtm = (DefaultTableModel) tablaLibros.getModel();
         dtm.setRowCount(0);
     } 
       
-    
-     public void selectWhere(int id, String sql){
+    /**
+     *
+     * @param id
+     * @param sql
+     */
+    public void selectWhere(int id, String sql){
         
         try (Connection conn = this.connect();
              PreparedStatement pstmt  = conn.prepareStatement(sql)){
@@ -297,6 +306,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
          Metodos objM = new Metodos();
+         
          if (!textoT.getText().isEmpty() && !textoA.getText().isEmpty() && !textoIsbn.getText().isEmpty()){
              objMen.setVisible(true);
                objMen.cambiarText("No puedes eliminar los tres campos a la vez");
@@ -317,7 +327,7 @@ public class Interfaz extends javax.swing.JFrame {
                textoA.setText("");
            }
            else if (!textoIsbn.getText().isEmpty()){
-               objM.cuenta(Integer.parseInt(textoA.getText()), "Select count(isbn) from libros where isbn= (?)");
+               objM.cuenta(Integer.parseInt(textoIsbn.getText()), "Select count(isbn) from libros where isbn= (?)");
                objM.ConsultaSimple(Integer.parseInt(textoIsbn.getText()), "DELETE FROM libros WHERE ISBN = (?)");
                textoIsbn.setText("");
            }
@@ -337,12 +347,12 @@ public class Interfaz extends javax.swing.JFrame {
        }
         else{
             if(!textoT.getText().isEmpty() && !textoIsbn.getText().isEmpty()){
-                objM.cuenta(Integer.parseInt(textoA.getText()), "Select count(libros) from libros where isbn= (?)"); 
+                objM.cuenta(Integer.parseInt(textoIsbn.getText()), "Select count(libros) from libros where isbn= (?)"); 
               objM.ConsultaCompleja(textoT.getText(), Integer.parseInt(textoIsbn.getText()), "UPDATE libros SET titulo = (?) WHERE ISBN = (?)");  
             }
             else if(!textoA.getText().isEmpty() && !textoIsbn.getText().isEmpty()){
-              objM.cuenta(Integer.parseInt(textoA.getText()), "Select count(autores) from autor where id= (SELECT idautor FROM libros where isbn = (?))"); 
-              objM.ConsultaCompleja(textoA.getText(), Integer.parseInt(textoIsbn.getText()), "UPDATE autor SET nombre = (?) WHERE ID = (SELECT idautor FROM libros where ID = (?))");  
+              objM.cuenta(Integer.parseInt(textoIsbn.getText()), "Select count(autores) from autor where id= (SELECT idautor FROM libros where isbn = (?))"); 
+              objM.ConsultaCompleja(textoA.getText(), Integer.parseInt(textoIsbn.getText()), "UPDATE autor SET nombre = (?) WHERE ID = (SELECT idautor FROM libros where ISBN = (?))");  
             }
             else if (!textoA.getText().isEmpty() && !textoT.getText().isEmpty()){
               objM.cuenta(textoA.getText(), "Select count(autorid) from libros where titulo= (?)");  
@@ -357,7 +367,7 @@ public class Interfaz extends javax.swing.JFrame {
 //
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         if(!textoIsbn.getText().isEmpty()){
-            selectWhere(Integer.parseInt(textoIsbn.getText()),"SELECT isbn, titulo, nombre FROM libros INNER JOIN autor ON autor.id = libros.idautor WHERE libros.isbn = (?)");
+            selectWhere(Integer.parseInt(textoIsbn.getText()),"SELECT isbn, titulo, nombre FROM libros INNER JOIN autor ON autor.id = libros.idautor WHERE isbn = (?)");
         }
     }//GEN-LAST:event_botonBuscarActionPerformed
 

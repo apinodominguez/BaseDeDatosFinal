@@ -1,7 +1,15 @@
 package basededatos;
 
+/**
+ *
+ * @author apinodominguez
+ */
 public class Main {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
  
         Conexion.connect();

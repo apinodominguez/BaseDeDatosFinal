@@ -6,13 +6,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ *
+ * @author apinodominguez
+ */
 public class Metodos {
     
     Mensaje objMen = new Mensaje();
     
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:C:\\SQlite\\BasesDeDatos\\LibreriaFinal.db";
+        String url = "jdbc:sqlite:/home/local/DANIELCASTELAO/apinodominguez/Descargas/SQLiteStudio/BasesDeDatos/Libreria.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -23,8 +27,12 @@ public class Metodos {
         return conn;
     }
     
-    
-   public void cuenta(String titulo, String sql){
+    /**
+     *
+     * @param titulo
+     * @param sql
+     */
+    public void cuenta(String titulo, String sql){
                int cuenta= 0;
         try (Connection conn = this.connect();
              PreparedStatement pstmt  = conn.prepareStatement(sql)){
@@ -42,7 +50,12 @@ public class Metodos {
         }
     }
    
-   public void cuenta(int titulo, String sql){
+    /**
+     *
+     * @param titulo
+     * @param sql
+     */
+    public void cuenta(int titulo, String sql){
                int cuenta= 0;
         try (Connection conn = this.connect();
              PreparedStatement pstmt  = conn.prepareStatement(sql)){
@@ -60,8 +73,12 @@ public class Metodos {
         }
     }
     
-    
-     public void ConsultaSimple(String name, String sql) {
+    /**
+     *
+     * @param name
+     * @param sql
+     */
+    public void ConsultaSimple(String name, String sql) {
         
         try (Connection conn = this.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -75,6 +92,11 @@ public class Metodos {
         }
     }
     
+    /**
+     *
+     * @param isbn
+     * @param sql
+     */
     public void ConsultaSimple(int isbn, String sql) {
         
         try (Connection conn = this.connect();
@@ -89,6 +111,12 @@ public class Metodos {
         }
     }
     
+    /**
+     *
+     * @param name
+     * @param id
+     * @param sql
+     */
     public void ConsultaCompleja(String name, int id, String sql) {
         
         try (Connection conn = this.connect();
@@ -104,7 +132,13 @@ public class Metodos {
         }
     }
     
-     public void ConsultaCompleja(String name, String tit, String sql) {
+    /**
+     *
+     * @param name
+     * @param tit
+     * @param sql
+     */
+    public void ConsultaCompleja(String name, String tit, String sql) {
         
         try (Connection conn = this.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -119,7 +153,13 @@ public class Metodos {
         }
     }
     
-     public int seleccionWhere(String autor, String sql){
+    /**
+     *
+     * @param autor
+     * @param sql
+     * @return
+     */
+    public int seleccionWhere(String autor, String sql){
                int id = 0;
         try (Connection conn = this.connect();
              PreparedStatement pstmt  = conn.prepareStatement(sql)){
@@ -140,11 +180,35 @@ public class Metodos {
         return  id;
     }
     
+//    public Object[] seleccionarFilas(int isbn){
+//        String sql = "SELECT isbn, titulo, nombre FROM libros INNER JOIN autor ON autor.id = libros.idautor WHERE isbn = (?)";
+//        Object[] row = {0, "",""};
+//        
+//        try (Connection conn = this.connect();
+//             PreparedStatement pstmt  = conn.prepareStatement(sql)){
+//            
+//            // set the value
+//            pstmt.setInt(1,isbn);
+//            //
+//            ResultSet rs  = pstmt.executeQuery();
+//            
+//            // loop through the result set
+//            while (rs.next()) {
+//               row = {rs.getInt("isbn"); rs.getString("titulo"); rs.getString("nombre")}
+//                                  
+//            }
+//        } catch (SQLException e) {
+//            objMen.cambiarText(e.getMessage());
+//        }
+//        return  row;
+//        
+//        
+    } 
     
   
      
     
-    }
+    
     
     
 
