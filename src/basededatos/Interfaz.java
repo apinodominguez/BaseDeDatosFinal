@@ -37,6 +37,7 @@ public class Interfaz extends javax.swing.JFrame {
         try {
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
+            System.out.println("conn");
             System.out.println(e.getMessage());
         }
         return conn;
@@ -79,11 +80,15 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public void selectWhere(int id, String sql){
         
+        System.out.println("id- "+ id);
+        System.out.println("sql"+ sql);
+        
         try (Connection conn = this.connect();
              PreparedStatement pstmt  = conn.prepareStatement(sql)){
              pstmt.setInt(1,id);
-             ResultSet rs    = pstmt.executeQuery(sql);
-            
+             
+             ResultSet rs    = pstmt.executeQuery();
+            System.out.println("1---");
             // loop through the result set
             while (rs.next()) {
                 Object[] row = { rs.getInt("isbn"), rs.getString("titulo"), rs.getString("nombre")};
@@ -367,7 +372,7 @@ public class Interfaz extends javax.swing.JFrame {
 //
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         if(!textoIsbn.getText().isEmpty()){
-            selectWhere(Integer.parseInt(textoIsbn.getText()),"SELECT isbn, titulo, nombre FROM libros INNER JOIN autor ON autor.id = libros.idautor WHERE isbn = (?)");
+            selectWhere(Integer.parseInt(textoIsbn.getText()),"SELECT isbn, titulo, nombre FROM libros INNER JOIN autor ON autor.id = libros.idautor WHERE isbn = ( ? )");
         }
     }//GEN-LAST:event_botonBuscarActionPerformed
 
